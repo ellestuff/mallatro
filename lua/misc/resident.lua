@@ -428,7 +428,7 @@ function love.update(dt)
 
 	if G and G.elle_resident_area then
 		for i, v in ipairs(G.elle_resident_area.cards) do
-			if v.ability.extra.anim_timer then v.ability.extra.anim_timer = math.max(v.ability.extra.anim_timer-dt,0) end
+			if v.ability.extra and v.ability.extra.anim_timer then v.ability.extra.anim_timer = math.max(v.ability.extra.anim_timer-dt,0) end
 		end
 	end
 end

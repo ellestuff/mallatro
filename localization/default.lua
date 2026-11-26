@@ -44,19 +44,57 @@ return {
 			res_mall_chloe = {
 				name = 'Chloe',
 				text = {
-					"Undecided. Definitely gonna",
-					"be more {C:attention}interesting{} than",
-					"the old effect though..."
+					"No effect. The standard",
+					"{C:attention}Balatro{} experience.",
 				},
 				res_bio = {
 					"A completely average {C:mall_Resident}Resident{}.",
 					"Didn't have the best home life",
-					"and had a falling out with her",
-					"{C:green}sister{}. When she discovered",
-					"{C:res_set_canon}The Mall{} it didn't take long for",
-					"her to make up her mind..."
+					"and ran away after having a",
+					"falling out with her {C:green}sister{}...",
+					" ",
+					"When she discovered {C:res_set_canon}The Mall",
+					"it didn't take long for her to",
+					"make up her mind."
 				}
-			}
+			},
+			res_mall_furry = {
+				name = "Furry",
+				text = {
+					"Destroy a {C:attention}random{} held",
+					"card before scoring",
+					"and gain {X:mult,C:white}X#1#{} Mult",
+					"{C:inactive}(Currently {X:mult,C:white}X#3#{C:inactive} Mult)",
+					"{s:.75}Scores after everything else"
+				},
+				res_bio = {
+					"A birthday gift gone wrong.",
+					"Months of prototyping to",
+					"create a tail for {C:res_mall_chloe}Chloe{}...",
+					" ",
+					"...It just turned out a little",
+					"more {C:red}sentient{} than intended."
+				}
+			},
+			res_mall_p41 = {
+				name = 'Prototype #1#41',
+				text = {
+					"Copy abilities of {C:attention}#2#{} random",
+					"{C:attention}copyable{} Jokers, changes",
+					"when {C:attention}Blind{} is selected",
+					"{C:red}#3#{} Joker slot"
+				},
+				res_bio = {
+					"The experiments to create",
+					"{C:res_mall_chloe}Chloe{}'s tail were repurposed",
+					"from experiments aiming to",
+					"create artificial {C:mall_Resident}Residents{}.",
+					" ",
+					"This {C:res_mall_p41}Prototype{} marks the",
+					"point when the experiments",
+					"pivoted towards making a tail."
+				}
+			},
 		}
 	},
 	misc = {
@@ -65,7 +103,11 @@ return {
 			k_mall_visitor = "Visitor",
 			b_mall_residents = "Residents",
 
-			mall_res_set_canon = "The Mall"
+			mall_res_set_canon = "The Mall",
+			mall_prototype_activate = "Yeah~!",
+
+			run_select_mall_residents = "Select Resident",
+			run_select_mall_residents_random = "Random Resident"
 		}
 	}
 }

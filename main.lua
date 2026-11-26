@@ -6,7 +6,14 @@ Mallatro = {
 	custom_card_areas = {},
 	custom_collection_tabs = {},
 	resident_sets = {},
-	resident_sets_ordered = {}
+	resident_sets_ordered = {},
+	
+	get_by_sortid = function(id) -- copied from entropy lol
+		for i, v in pairs(G.jokers.cards) do
+			if v.sort_id == id then return v end
+		end
+	end
+
 }
 
 SMODS.Atlas{
@@ -16,7 +23,15 @@ SMODS.Atlas{
 }
 
 assert(SMODS.load_file("resident.lua"))()
-assert(SMODS.load_file("residents/chloe.lua"))()
+
+local residents = {
+	"chloe",
+	"furry",
+	"41"
+}
+for _, v in ipairs(residents) do
+	assert(SMODS.load_file("residents/"..v..".lua"))()
+end
 
 Mallatro.data.custom_card_areas = function(game)
 	for _,v in pairs(Mallatro.custom_card_areas) do

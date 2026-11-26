@@ -1,6 +1,6 @@
 Mallatro.Resident = SMODS.Center:extend{
 	unlocked = true,
-	discovered = false,
+	discovered = true,
 	atlas = "mall_residents",
 	pos = { x = 0, y = 0 },
 	cost = 12,
@@ -50,20 +50,13 @@ function Mallatro.custom_card_areas.resident(game)
 			card_limit = 1,
 			type = "joker",
 			highlight_limit = 1,
-			no_card_count = false,
+			no_card_count = true,
 			align_buttons = true,
-			mall_w_space = .6
+			mall_w_space = .6,
+			bg_colour = G.C.CLEAR
 		}
 	)
 end
-
-SMODS.UndiscoveredSprite{
-	key = 'mall_Resident',
-	atlas = 'residents',
-	pos = {x=1,y=0},
-	no_overlay = true
-}
-SMODS.UndiscoveredCompat.mall_Resident = true
 
 local gsr = Game.start_run
 function Game:start_run(args, ...)
@@ -281,3 +274,32 @@ function localize(args, misc_cat)
 	end
 	return localize_ref(args, misc_cat)
 end
+
+SMODS.RunSelectPage{
+	key = "residents",
+	page = 2,
+	automatic_preview = true,
+	generate_pool = function(self)
+		local pool = {}
+		for i, v in ipairs(G.P_CENTER_POOLS.mall_Resident) do
+			if not v.no_run_select then pool[#pool+1] = v end
+		end
+		return pool
+	end,
+	start_run = function(self, choice)
+		G.E_MANAGER:add_event(Event({
+			trigger = 'after',
+			func = function()
+				local c = SMODS.add_card({key = choice, skip_materialize = true, area=G.mall_resident_area})
+				--c:start_materialize()
+				return true
+			end
+		}))
+	end,
+	random_select = true,
+	type = "mall_Resident",
+	no_remove = true,
+	set_default = function(self, choice)
+		return choice or "res_mall_chloe"
+	end
+}

@@ -1,0 +1,42 @@
+[manifest]
+version = "0.1.0"
+dump_lua = true
+priority = 0
+
+# Add debug give for resident cards
+[[patches]]
+[patches.pattern]
+target = "engine/controller.lua"
+pattern = 'if key == "3" then'
+position = "after"
+payload = '''
+if _card.ability.set == 'mall_Resident' and G.mall_resident_area and #G.mall_resident_area.cards < G.mall_resident_area.config.card_limit then
+    SMODS.add_card({area = G.mall_resident_area, key = _card.config.center.key})
+    _card:set_sprites(_card.config.center)
+end
+'''
+match_indent = true
+
+# Add resident calculation
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = "-- TARGET: add your own CardAreas for joker evaluation"
+position = "after"
+payload = '''
+table.insert(t,1,G.mall_resident_area)
+'''
+match_indent = true
+
+# Let residents get debuffed by blinds
+[[patches]]
+[patches.pattern]
+target = "blind.lua"
+pattern = "--add new debuffs"
+position = 'after'
+payload = '''
+for _, v in ipairs(G.mall_resident_area.cards) do
+    if not reset then self:debuff_card(v, true) end
+end
+'''
+match_indent = true

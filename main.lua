@@ -12,8 +12,10 @@ Mallatro = {
 		for i, v in pairs(G.jokers.cards) do
 			if v.sort_id == id then return v end
 		end
+	end,
+	should_skip_shop = function()
+		return #SMODS.find_card('res_mall_rebecca')>0
 	end
-
 }
 
 SMODS.Atlas{
@@ -22,14 +24,19 @@ SMODS.Atlas{
 	px=71, py=95
 }
 
-assert(SMODS.load_file("resident.lua"))()
+for _, v in ipairs{ -- Lib
+	"resident",
+	--"overlay_shop"
+} do
+	assert(SMODS.load_file("lib/"..v..".lua"))()
+end
 
-local residents = {
+for _, v in ipairs{ -- Residents
 	"chloe",
 	"furry",
-	"41"
-}
-for _, v in ipairs(residents) do
+	"41",
+	--"rebecca"
+} do
 	assert(SMODS.load_file("residents/"..v..".lua"))()
 end
 

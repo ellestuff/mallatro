@@ -37,23 +37,23 @@ Mallatro.Resident{
 		return ret
 	end,
 	calculate = function(self, card, context)
-		ret = {}
+		local ret = {}
 		if context.setting_blind and not context.retrigger_joker then
 			card.ability.extra.targets = {}
 
-			list = {}
+			local list = {}
 			for i, v in ipairs(G.jokers.cards) do
 				if v.config.center.blueprint_compat then list[#list+1] = v end
 			end
 			
 			for i = 1, card.ability.extra.count do
-				local ret = pseudorandom_element(list,"mall_prototypes",{in_pool = function(v, args)
+				local pick = pseudorandom_element(list,"mall_prototypes",{in_pool = function(v, args)
 					return v.config.center.blueprint_compat
 				end})
-				if ret then
-					card.ability.extra.targets[#card.ability.extra.targets+1] = ret.sort_id
+				if pick then
+					card.ability.extra.targets[#card.ability.extra.targets+1] = pick.sort_id
 					for j, v in ipairs(list) do
-						if v == ret then list[j]=nil break end
+						if v == pick then list[j]=nil break end
 					end
 				end
 			end
@@ -66,7 +66,7 @@ Mallatro.Resident{
 		for _, v in ipairs(card.ability.extra.targets) do
 			ret[#ret+1] = SMODS.blueprint_effect(card, Mallatro.get_by_sortid(v), context)
 		end
-		if #ret>0 then print(ret) end
+		--if #ret>0 then print(ret) end
 		return SMODS.merge_effects(ret)
 	end,
 	add_to_deck = function(self, card, from_debuff)

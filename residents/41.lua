@@ -62,10 +62,11 @@ Mallatro.Resident{
 				message = localize("mall_prototype_activate"),
 			}, card)
 		end
-	
+
 		for _, v in ipairs(card.ability.extra.targets) do
 			ret[#ret+1] = SMODS.blueprint_effect(card, Mallatro.get_by_sortid(v), context)
 		end
+		if #ret>0 then print(ret) end
 		return SMODS.merge_effects(ret)
 	end,
 	add_to_deck = function(self, card, from_debuff)

@@ -12,7 +12,20 @@ Mallatro.Resident = SMODS.Center:extend{
 	required_params = { "key" },
 	pre_inject_class = function(self)
 		G.P_CENTER_POOLS[self.set] = {}
-	end,set_card_type_badge = function(self, card, badges)
+	end,
+	set_card_type_badge = function(self, card, badges)
+		if card.ability.res_active then
+			local bar = create_badge("",
+				G.C.BLACK, G.C.WHITE,.8)
+			print(bar.nodes[1])
+			bar.nodes[1].nodes = nil
+			bar.nodes[1].config.card = card
+			bar.nodes[1].config.shader = {
+				shader = "mall_active"
+			}
+			badges[#badges + 1] = bar
+		end
+
 		badges[#badges + 1] = create_badge(self.res_visitor and localize(type(self.res_visitor)=="string" and self.res_visitor or 'k_mall_visitor') or localize('k_mall_resident'),
 			not Mallatro.card_obscured(card) and self.res_colour or get_type_colour(card.config.center or card.config, card), G.C.WHITE,1.2)
 		badges[#badges + 1] = create_badge(localize('mall_res_set_'..self.res_set),
@@ -26,7 +39,15 @@ Mallatro.Resident = SMODS.Center:extend{
 	res_colour = HEX("a86de2"),
 	res_visitor = false,
 	res_set = "canon",
-	no_run_select = false
+	no_run_select = false,
+	res_can_active = function(self,card)
+		return card.ability.res_active <= card.ability.res_charges
+	end,
+	set_ability = function(self,card,initial,delay_sprites)
+		if card.ability.res_active then
+			card.ability.res_active.charges = card.ability.res_active.max
+		end
+	end
 }
 G.C.SET.mall_Resident = HEX("a86de2")
 G.C.SECONDARY_SET.mall_Resident = HEX("cd97ef")
@@ -291,7 +312,7 @@ SMODS.RunSelectPage{
 			trigger = 'after',
 			func = function()
 				local c = SMODS.add_card({key = choice, skip_materialize = true, area=G.mall_resident_area})
-				--c:start_materialize()
+				c:start_materialize()
 				return true
 			end
 		}))
@@ -301,5 +322,17 @@ SMODS.RunSelectPage{
 	no_remove = true,
 	set_default = function(self, choice)
 		return choice or "res_mall_chloe"
+	end
+}
+
+SMODS.Shader{
+	key = "mall_active",
+	path = "active.fs",
+	send_vars = function (element, card)
+		local active = element.config.card.ability.res_active
+		return {
+			progress = .5,--active.charges/active.max,
+			time = G.TIMERS.REAL
+		}
 	end
 }

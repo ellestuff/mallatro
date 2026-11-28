@@ -14,7 +14,7 @@ Mallatro = {
 		end
 	end,
 	should_skip_shop = function()
-		return #SMODS.find_card('res_mall_rebecca')>0
+		return #SMODS.find_card('res_mall_rebecca')>0 -- becca's currently shelved but this is for when she gets into the game properly
 	end
 }
 
@@ -35,7 +35,7 @@ for _, v in ipairs{ -- Residents
 	"chloe",
 	"furry",
 	"41",
-	--"rebecca"
+	"cheshire"
 } do
 	assert(SMODS.load_file("residents/"..v..".lua"))()
 end
